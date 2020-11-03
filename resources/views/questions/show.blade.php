@@ -5,25 +5,45 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+                <div class="card-header col-sm-12">
+                    <div class="row mt-3 mb-3">
+                        <div class="col-sm-8 text-left">
+                            <h2>{{ $questions->description }}</h2>
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            <a class="btn btn-primary" href="{{ route('questions.index') }}" title="Go back"> 
+                                <i class="fas fa-backward "></i> 
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <h2>{{ $questions->description }}</h2>
+                    
                     <hr />
                     <h4>Add Answer</h4>
-                    <form method="post" action="/storeAnswer}}">
+                    <form action="{{ route('answers.store') }}" method="POST" >
                         {{ csrf_field() }}
-                        <div class="form-group">
-                            <textarea class="form-control" name="body"></textarea>
-                            <input type="hidden" name="post_id" value="{{ $questions->id }}" />
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="form-group">
+                                    <input type="text" name="description" class="form-control" placeholder="Name">
+                                    <input type="hidden" name="question_id" value="{{ $questions->id }}" />
+                                    <input type="hidden" name="parent_id" value="{{ $questions->id }}" />
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-success" value="Add Answers" />
-                        </div>
+
                     </form>
+                    
                     <hr />
-                    @include('questions.answersDisplay', 
+                    @include(
+                        'questions.answersDisplay', 
                         [
                             'answers' => $answers, 
-                            'post_id' => $questions->id
+                            'questions_id' => $questions->id
                         ]
                     )
                 </div>

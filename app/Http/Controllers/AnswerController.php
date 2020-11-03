@@ -36,12 +36,12 @@ class AnswerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'body'=>'required',
+            'description' => 'required'
         ]);
-   
-        $input = $request->all();
-    
-        Answer::create($input);
+
+        //dd($request);
+
+        Answer::create($request->all());
    
         return redirect()->route('questions.index')
             ->with('success', 'Description updated successfully');

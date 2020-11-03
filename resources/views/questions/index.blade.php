@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="row mt-3 mb-3">
-        <div class="col-sm-8 pull-left">
+        <div class="col-sm-8 text-left">
             <h2>Make a Question</h2>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 text-right">
             <a class="btn btn-success" href="{{ route('questions.create') }}" title="Create a question"> 
                 <i class="fas fa-plus-circle"></i>
             </a>
@@ -30,9 +30,15 @@
         <tr>
             <td class="text-center">{{ $question->id }}</td>
             <td>{{ $question->description }}</td>
-            <td class="text-center btn btn-outline-info">
+            <td class="text-center">
                 <div class="badge badge-light">
-                    {{ $totals }}
+                    @foreach($totals as $total)
+                        @if ($total->question_id ===  $question->id)
+                            {{ $total->total }}
+                        @else
+                            0
+                        @endif
+                    @endforeach
                 </div>
             </td>
             <td class="text-center">

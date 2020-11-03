@@ -16,10 +16,14 @@ class QuestionController extends Controller
     public function index()
     {
         $totalAnswers = Answer::query()
-            ->count();
+            ->select('question_id', Answer::raw('count(*) as total'))
+            ->groupBy('question_id')
+            ->get();
 
         $questions = Question::latest()
-            ->paginate(2);
+            ->paginate(10);
+
+            //dd($totalAnswers);
 
         return view('questions.index', [
             'questions' => $questions,
@@ -63,7 +67,12 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        $answers = Answer::all();
+        $answers = Answer::query()
+            ->where('question_id', $question->id)
+            ->get();
+
+        //dd($answers);
+        //dd($question);
         
         return view('questions.show', [
             'questions' => $question,
