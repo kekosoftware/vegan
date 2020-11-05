@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Suggestion;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -15,19 +16,16 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $totalAnswers = Answer::query()
-            ->select('question_id', Answer::raw('count(*) as total'))
-            ->groupBy('question_id')
-            ->get();
-
-        $questions = Question::latest()
+        //$questions = Question::withCount('answers_totals')->get();
+        
+        $questions = Question::withCount('answers_totals')
+            ->orderBy('updated_at', 'desc')
             ->paginate(10);
 
-            //dd($totalAnswers);
+        //dd($questions);
 
         return view('questions.index', [
-            'questions' => $questions,
-            'totals' => $totalAnswers
+            'questions' => $questions
         ]);
     }
 
@@ -38,7 +36,11 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        return view('questions.create');
+        $suggestion = Suggestion::inRandomOrder()->first();
+        
+        return view('questions.create',[
+            'suggestion' => $suggestion
+        ]);
     }
 
     /**
@@ -50,7 +52,11 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'description' => 'required'
+            'description' => ['regex:/^.*?\?$/', 'required', 'min:5'],
+        ], [
+            'description.regex' => "The question should ent with the character '?'",
+            'description.required' => "This field is required",
+            'description.min' => "The answer must be at least 5 characters",
         ]);
 
         Question::create($request->all());
@@ -70,45 +76,14 @@ class QuestionController extends Controller
         $answers = Answer::query()
             ->where('question_id', $question->id)
             ->get();
-
-        //dd($answers);
-        //dd($question);
+        
+        
         
         return view('questions.show', [
             'questions' => $question,
-            'answers' => $answers
+            'answers_list' => $answers
         ]);
         
-        //return view('questions.show', compact('question'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Question $question)
-    {
-        return view('questions.edit', compact('question'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Question $question)
-    {
-        $request->validate([
-            'description' => 'required'
-        ]);
-        $question->update($request->all());
-
-        return redirect()->route('questions.index')
-            ->with('success', 'Description updated successfully');
     }
 
     /**
@@ -119,7 +94,7 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-        $project->delete();
+        $question->delete();
 
         return redirect()->route('questions.index')
             ->with('success', 'Project deleted successfully');

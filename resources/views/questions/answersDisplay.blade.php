@@ -1,5 +1,5 @@
-@foreach($answers as $answer)
-    <div class="display-answer">
+@foreach($answers_show as $answer)
+    <div class="display-answer" @if($answer->parent_id != null) style='margin-left:40px;' @endif">
         <p>{{ $answer->description }}</p>
         <a href="" id="reply"></a>
 

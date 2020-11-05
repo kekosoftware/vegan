@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="row mt-3 mb-3">
-        <div class="col-sm-8 text-left">
-            <h2>Make a Question</h2>
+        <div class="col-sm-8 text-left font-italic">
+            <h2>List of Questions</h2>
         </div>
         <div class="col-sm-4 text-right">
             <a class="btn btn-success" href="{{ route('questions.create') }}" title="Create a question"> 
@@ -13,48 +13,44 @@
     </div>
 
     @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ $message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     @endif
 
-    <table class="table table-bordered table-responsive-sm">
-        <thead>
-            <th width="10%" class="text-center">Id</th>
-            <th width="50%">Title</th>
-            <th width="20%" class="text-center">Total Answers</th>
-            <th width="20%" class="text-center">Action</th>
+    <table class="table table-bordered table-responsive-sm table-striped">
+        <thead class="thead-dark">
+            <th width="10%" class="text-center font-italic">#</th>
+            <th width="50%" class="font-italic">Title</th>
+            <th width="20%" class="text-center font-italic">Total Answers</th>
+            <th width="20%" class="text-center font-italic">Action</th>
         </thead>
         <tbody>
         @foreach($questions as $question)
         <tr>
-            <td class="text-center">{{ $question->id }}</td>
+            <td class="text-center">{{ $loop->index + 1 }}</td>
             <td>{{ $question->description }}</td>
             <td class="text-center">
-                <div class="badge badge-light">
-                    @foreach($totals as $total)
-                        @if ($total->question_id ===  $question->id)
-                            {{ $total->total }}
-                        @else
-                            0
-                        @endif
-                    @endforeach
-                </div>
+                <span class="badge badge-pill badge-info p-2">
+                    {{ $question->answers_totals_count }}
+                </span>
             </td>
             <td class="text-center">
-                <form action="{{ route('questions.destroy', $question->id) }}" method="POST">
+                <div class="btn-group" role="group" aria-label="Basic example">
                     <a href="{{ route('questions.show', $question->id) }}" title="show">
-                        <i class="fas fa-eye text-success  fa-lg"></i>
+                        <button type="button" class="btn btn-success">Show</button>           
                     </a>
-                    <a href="{{ route('questions.edit', $question->id) }}">
-                        <i class="fas fa-edit  fa-lg"></i>
-                    </a>
-                    {{ csrf_field() }}
-                    @method('DELETE')
-                    <button type="submit" title="delete" style="border: none; background-color:transparent;">
-                        <i class="fas fa-trash fa-lg text-danger"></i>
-                    </button>
-                </form>
+                    <form action="{{ route('questions.destroy', $question->id) }}" method="POST">
+                        {{ csrf_field() }}
+                        @method('DELETE')
+                        <button type="submit" title="delete" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </form>
+                </div>
             </td>
         </tr>
         @endforeach

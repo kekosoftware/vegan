@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header col-sm-12">
                     <div class="row mt-3 mb-3">
-                        <div class="col-sm-8 text-left">
+                        <div class="col-sm-8 text-left font-italic">
                             <h2>{{ $questions->description }}</h2>
                         </div>
                         <div class="col-sm-4 text-right">
@@ -18,31 +18,28 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    
-                    <hr />
-                    <h4>Add Answer</h4>
+                    <h4 class="font-italic">Add Answer</h4>
                     <form action="{{ route('answers.store') }}" method="POST" >
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <input type="text" name="description" class="form-control" placeholder="Name">
+                                    <textarea class="form-control" 
+                                        name="description" 
+                                        class="form-control"></textarea>
                                     <input type="hidden" name="question_id" value="{{ $questions->id }}" />
-                                    <input type="hidden" name="parent_id" value="{{ $questions->id }}" />
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
-
                     </form>
-                    
                     <hr />
                     @include(
                         'questions.answersDisplay', 
                         [
-                            'answers' => $answers, 
+                            'answers_show' => $answers_list, 
                             'questions_id' => $questions->id
                         ]
                     )

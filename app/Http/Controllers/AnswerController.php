@@ -36,10 +36,8 @@ class AnswerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'description' => 'required'
+            'description' => 'required|min:5'
         ]);
-
-        //dd($request);
 
         Answer::create($request->all());
    

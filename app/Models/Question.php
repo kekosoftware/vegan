@@ -28,5 +28,10 @@ class Question extends Model
     {
         return $this->hasMany(Answer::class)->whereNull('parent_id');
     }
+
+    public function answers_totals()
+    {
+        return $this->hasMany(Answer::class);;
+    }
     
 }
