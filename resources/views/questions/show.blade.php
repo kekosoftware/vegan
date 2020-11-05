@@ -17,6 +17,19 @@
                         </div>
                     </div>
                 </div>
+                @if ($errors->any())
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Requirement!</strong><br>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 <div class="card-body">
                     <h4 class="font-italic">Add Answer</h4>
                     <form action="{{ route('answers.store') }}" method="POST" >
@@ -35,7 +48,6 @@
                             </div>
                         </div>
                     </form>
-                    <hr />
                     @include(
                         'questions.answersDisplay', 
                         [

@@ -56,7 +56,7 @@ class QuestionController extends Controller
         ], [
             'description.regex' => "The question should ent with the character '?'",
             'description.required' => "This field is required",
-            'description.min' => "The answer must be at least 5 characters",
+            'description.min' => "The question must be at least 5 characters",
         ]);
 
         Question::create($request->all());
@@ -75,9 +75,8 @@ class QuestionController extends Controller
     {
         $answers = Answer::query()
             ->where('question_id', $question->id)
+            ->orderBy('updated_at', 'asc')
             ->get();
-        
-        
         
         return view('questions.show', [
             'questions' => $question,

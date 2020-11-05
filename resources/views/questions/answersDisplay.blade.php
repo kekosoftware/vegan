@@ -1,20 +1,14 @@
-@foreach($answers_show as $answer)
-    <div class="display-answer" @if($answer->parent_id != null) style='margin-left:40px;' @endif">
-        <p>{{ $answer->description }}</p>
-        <a href="" id="reply"></a>
-
-        <form action="{{ route('answers.store') }}" method="POST" >        
-
-            {{ csrf_field() }}
-            <div class="form-group">
-                <input type="text" name="description" class="form-control" />
-                <input type="hidden" name="question_id" value="{{ $questions->id }}" />
-                <input type="hidden" name="parent_id" value="{{ $answer->id }}" />
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-warning" value="Reply" />
-            </div>
-        </form>
-        
-    </div>
-@endforeach
+<table class="table table-bordered table-responsive-sm table-striped mt-3">
+    <thead class="thead-dark">
+        <th width="20%" class="text-center font-italic">#</th>
+        <th width="80%" class="font-italic">Description</th>
+    </thead>
+    <tbody>
+        @foreach($answers_show as $answer)
+            <tr>
+                <td class="text-center">{{ $loop->index + 1 }}</td>
+                <td class="text-left">{{ $answer->description }}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
