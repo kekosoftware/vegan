@@ -77,7 +77,11 @@ class QuestionController extends Controller
             ->where('question_id', $question->id)
             ->orderBy('updated_at', 'asc')
             ->get();
+
+        //$question_all = Question::find($question->id);
         
+        //dd($question_all);
+
         return view('questions.show', [
             'questions' => $question,
             'answers_list' => $answers

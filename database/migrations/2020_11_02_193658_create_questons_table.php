@@ -17,7 +17,6 @@ class CreateQuestonsTable extends Migration
             $table->id();
             $table->string('description', 500);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
