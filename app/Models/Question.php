@@ -24,14 +24,10 @@ class Question extends Model
      * @var array
      */
     
-    public function answers()
+    public function answers_rela()
     {
-        return $this->hasMany(Answer::class)->whereNull('parent_id');
-    }
-
-    public function answers_totals()
-    {
-        return $this->hasMany(Answer::class);;
+        //return $this->hasMany(Answer::class)->whereNull('parent_id');
+        return $this->hasMany(Answer::class);
     }
     
 }

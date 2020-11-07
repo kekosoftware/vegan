@@ -13,6 +13,5 @@
                 <input type="submit" class="btn btn-warning" value="Reply" />
             </div>
         </form>
-        @include('questions.answersDisplay', ['answers_show' => $answer->replies])
     </div>
 @endforeach

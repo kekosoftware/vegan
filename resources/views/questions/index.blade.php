@@ -35,7 +35,7 @@
             <td>{{ $question->description }}</td>
             <td class="text-center">
                 <span class="badge badge-pill badge-info p-2">
-                    {{ $question->answers_totals_count }}
+                    {{ $question->answers_rela_count }}
                 </span>
             </td>
             <td class="text-center">

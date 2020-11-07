@@ -30,6 +30,13 @@
                         </button>
                     </div>
                 @endif
+                @include(
+                        'questions.answersDisplay', 
+                        [
+                            'answers_show' => $answers_list, 
+                            'questions_id' => $questions->id
+                        ]
+                    )
                 <div class="card-body">
                     <h4 class="font-italic">Add Answer</h4>
                     <form action="{{ route('answers.store') }}" method="POST" >
@@ -48,13 +55,6 @@
                             </div>
                         </div>
                     </form>
-                    @include(
-                        'questions.answersDisplay', 
-                        [
-                            'answers_show' => $answers_list, 
-                            'questions_id' => $questions->id
-                        ]
-                    )
                 </div>
             </div>
         </div>

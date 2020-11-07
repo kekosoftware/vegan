@@ -15,10 +15,15 @@ class Answer extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'question_id', 
         'parent_id', 
         'description'
     ];
+
+    public function question_rela(){
+        return $this->belongsTo('App\Model\Question');
+    }
 
     /**
      * The has Many Relationship
@@ -27,6 +32,7 @@ class Answer extends Model
      */
     public function replies()
     {
-        return $this->hasMany(Answer::class, 'parent_id');
+        //return $this->hasMany(Answer::class, 'parent_id');
+        return $this->hasMany('App\Models\Answer', 'parent_id');
     }
 }

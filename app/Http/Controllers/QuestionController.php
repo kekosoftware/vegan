@@ -18,11 +18,9 @@ class QuestionController extends Controller
     {
         //$questions = Question::withCount('answers_totals')->get();
         
-        $questions = Question::withCount('answers_totals')
+        $questions = Question::withCount('answers_rela')
             ->orderBy('updated_at', 'desc')
             ->paginate(10);
-
-        //dd($questions);
 
         return view('questions.index', [
             'questions' => $questions
@@ -75,13 +73,9 @@ class QuestionController extends Controller
     {
         $answers = Answer::query()
             ->where('question_id', $question->id)
-            ->orderBy('updated_at', 'asc')
+            ->orderBy('id', 'asc')
             ->get();
-
-        //$question_all = Question::find($question->id);
         
-        //dd($question_all);
-
         return view('questions.show', [
             'questions' => $question,
             'answers_list' => $answers
@@ -100,6 +94,6 @@ class QuestionController extends Controller
         $question->delete();
 
         return redirect()->route('questions.index')
-            ->with('success', 'Project deleted successfully');
+            ->with('success', 'Question deleted successfully');
     }
 }
